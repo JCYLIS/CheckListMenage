@@ -27,7 +27,8 @@
       overflow: hidden;
     }
 
-    .header { padding: 28px 24px 12px; }
+    .header { padding: 28px 24px 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header-left { flex: 1; }
 
     .title {
       font-family: 'Playfair Display', serif;
@@ -43,6 +44,22 @@
       margin-top: 6px;
       font-weight: 500;
     }
+
+    .admin-toggle {
+      background: none;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #94a3b8;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .admin-toggle:hover { border-color: #cbd5e1; color: #64748b; }
+    .admin-toggle.active { background: #f0f9ff; border-color: #93c5fd; color: #3b82f6; }
 
     .progress-track {
       margin: 8px 24px 20px;
@@ -128,6 +145,21 @@
     .checkmark { display: none; }
     .task-row.checked .checkmark { display: block; }
 
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #e11d48;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .delete-btn:hover { opacity: 1; background: #fef2f2; }
+
     .footer {
       padding: 20px 24px 24px;
       display: flex;
@@ -160,21 +192,158 @@
       color: #94a3b8;
     }
 
-    .status {
-      font-size: 12px;
-      padding: 4px 10px;
+    /* Admin panel */
+    .admin-panel {
+      padding: 16px;
+      margin: 16px 16px 0;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1.5px dashed #cbd5e1;
+    }
+
+    .admin-panel h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    .add-task-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .add-task-row input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .add-task-row input[type="text"]:focus { border-color: #93c5fd; }
+
+    .add-btn {
+      padding: 10px 16px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .add-btn:hover { background: #2563eb; }
+
+    .emoji-pick {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-btn {
+      padding: 4px 8px;
+      border: 1.5px solid #e2e8f0;
       border-radius: 6px;
-      margin-top: 4px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s;
     }
 
-    .status.offline {
-      background: #fef3c7;
-      color: #92400e;
+    .emoji-btn:hover { border-color: #93c5fd; background: #f0f9ff; }
+    .emoji-btn.selected { border-color: #3b82f6; background: #eff6ff; }
+
+    /* Login modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
     }
 
-    .status.online {
-      background: #ecfdf5;
-      color: #065f46;
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .modal h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .modal input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .modal input[type="password"]:focus { border-color: #93c5fd; }
+
+    .modal-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .modal-cancel {
+      padding: 10px 16px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      color: #64748b;
+    }
+
+    .modal-ok {
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .modal-error {
+      color: #dc2626;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 32px 16px;
+      color: #94a3b8;
+      font-size: 14px;
     }
 
     .loading {
@@ -194,14 +363,6 @@
     }
 
     .loading p { color: #8a9bae; }
-
-    .setup-msg {
-      padding: 40px 24px;
-      text-align: center;
-      color: #dc2626;
-      font-size: 14px;
-      line-height: 1.6;
-    }
 
     @keyframes fadeSlideIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -223,12 +384,20 @@
   </div>
 </div>
 
+<!-- Login modal -->
+<div class="modal-overlay" id="loginModal" style="display:none">
+  <div class="modal">
+    <h3>Mode admin 🔑</h3>
+    <div class="modal-error" id="loginError" style="display:none">Mot de passe incorrect</div>
+    <input type="password" id="loginPassword" placeholder="Mot de passe" autocomplete="off">
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="loginCancel">Annuler</button>
+      <button class="modal-ok" id="loginOk">Valider</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
-  // =============================================
-  // CONFIGURATION FIREBASE
-  // Remplace les valeurs ci-dessous par les tiennes
-  // (Firebase Console > Paramètres du projet > Config)
-  // =============================================
   const firebaseConfig = {
     apiKey: "AIzaSyCdmFVTsHWsKz_os4aUbCsFvi_1gKWmrDs",
     authDomain: "checklist-menage.firebaseapp.com",
@@ -238,77 +407,216 @@
     messagingSenderId: "799371763363",
     appId: "1:799371763363:web:7713ecbbcb4104717de916"
   };
-  // =============================================
+
+  // Password hash (SHA-256)
+  const ADMIN_HASH = "4e937d509dae2e4e7e7b1f758891618b431f5add766963ae788c2b54b0e5a895";
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-  const TASKS = [
-    { id: "frigo", label: "Nettoyer le frigo", icon: "🧊" },
-    { id: "carreaux", label: "Faire les carreaux", icon: "🪟" },
-    { id: "repassage", label: "Repassage", icon: "👔" },
-    { id: "four", label: "Nettoyer le four", icon: "🔥" },
-    { id: "portes", label: "Nettoyer les portes", icon: "🚪" },
-    { id: "tiroirs", label: "Nettoyer les tiroirs cuisine et façades", icon: "🗄️" },
-  ];
-
-  const app = document.getElementById("app");
-
-  // Config OK
+  import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   const firebaseApp = initializeApp(firebaseConfig);
   const db = getDatabase(firebaseApp);
-  const checklistRef = ref(db, "checklist");
+  const tasksRef = ref(db, "tasks");
+  const checksRef = ref(db, "checks");
 
-  let state = {};
+  const EMOJIS = ["🧹","🧽","🧊","🪟","👔","🔥","🚪","🗄️","🛁","🚽","🪣","✨","🧴","🛏️","💡","🪴"];
+
+  let tasks = [];
+  let checks = {};
+  let isAdmin = false;
   let resetConfirm = false;
   let resetTimeout = null;
+  let selectedEmoji = "🧹";
+  let tasksLoaded = false;
+  let checksLoaded = false;
+
+  const appEl = document.getElementById("app");
+
+  // SHA-256 hash function
+  async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  // Login modal
+  const loginModal = document.getElementById("loginModal");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginError = document.getElementById("loginError");
+
+  document.getElementById("loginCancel").addEventListener("click", () => {
+    loginModal.style.display = "none";
+    loginPassword.value = "";
+    loginError.style.display = "none";
+  });
+
+  document.getElementById("loginOk").addEventListener("click", tryLogin);
+  loginPassword.addEventListener("keydown", (e) => { if (e.key === "Enter") tryLogin(); });
+
+  async function tryLogin() {
+    const hash = await sha256(loginPassword.value);
+    if (hash === ADMIN_HASH) {
+      isAdmin = true;
+      loginModal.style.display = "none";
+      loginPassword.value = "";
+      loginError.style.display = "none";
+      render();
+    } else {
+      loginError.style.display = "block";
+      loginPassword.value = "";
+    }
+  }
+
+  function tryRender() {
+    if (tasksLoaded && checksLoaded) render();
+  }
+
+  // Listen for tasks
+  onValue(tasksRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+      tasks = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+    } else {
+      tasks = [];
+    }
+    tasksLoaded = true;
+    tryRender();
+  });
+
+  // Listen for checks
+  onValue(checksRef, (snapshot) => {
+    const data = snapshot.val();
+    checks = data || {};
+    checksLoaded = true;
+    tryRender();
+  });
 
   function render() {
-    const doneCount = TASKS.filter(t => state[t.id]).length;
-    const progress = (doneCount / TASKS.length) * 100;
-    const allDone = doneCount === TASKS.length;
+    const doneCount = tasks.filter(t => checks[t.id]).length;
+    const total = tasks.length;
+    const progress = total > 0 ? (doneCount / total) * 100 : 0;
+    const allDone = total > 0 && doneCount === total;
 
-    app.innerHTML = `
+    appEl.innerHTML = `
       <div class="header">
-        <div class="title">Ménage</div>
-        <div class="subtitle">${allDone ? "Tout est fait — merci ! ✨" : `${doneCount} / ${TASKS.length} tâches`}</div>
-      </div>
-      <div class="progress-track">
-        <div class="progress-fill ${allDone ? 'done' : ''}" style="width: ${progress}%"></div>
-      </div>
-      <div class="task-list">
-        ${TASKS.map((t, i) => `
-          <div class="task-row ${state[t.id] ? 'checked' : ''}" data-id="${t.id}" style="animation-delay: ${i * 60}ms">
-            <span class="task-icon">${t.icon}</span>
-            <span class="task-label">${t.label}</span>
-            <span class="checkbox">
-              <svg class="checkmark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-            </span>
-          </div>
-        `).join('')}
-      </div>
-      <div class="footer">
-        <button class="reset-btn ${resetConfirm ? 'confirm' : ''}" id="resetBtn">
-          ${resetConfirm ? "Confirmer le reset ?" : "Tout décocher"}
+        <div class="header-left">
+          <div class="title">Ménage</div>
+          <div class="subtitle">${
+            total === 0 ? "Aucune tâche" :
+            allDone ? "Tout est fait — merci ! ✨" :
+            `${doneCount} / ${total} tâches`
+          }</div>
+        </div>
+        <button class="admin-toggle ${isAdmin ? 'active' : ''}" id="adminBtn" title="Mode admin">
+          ${isAdmin ? '🔓' : '🔒'}
         </button>
-        ${state._savedAt ? `<div class="saved-at">Mis à jour : ${state._savedAt}</div>` : ''}
+      </div>
+
+      ${total > 0 ? `
+        <div class="progress-track">
+          <div class="progress-fill ${allDone ? 'done' : ''}" style="width: ${progress}%"></div>
+        </div>
+      ` : ''}
+
+      ${isAdmin ? `
+        <div class="admin-panel">
+          <h3>Ajouter une tâche</h3>
+          <div class="add-task-row">
+            <input type="text" id="newTaskInput" placeholder="Ex : Nettoyer la salle de bain">
+            <button class="add-btn" id="addTaskBtn">Ajouter</button>
+          </div>
+          <div class="emoji-pick">
+            ${EMOJIS.map(e => `
+              <button class="emoji-btn ${e === selectedEmoji ? 'selected' : ''}" data-emoji="${e}">${e}</button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${total === 0 ? `
+        <div class="empty-msg">
+          ${isAdmin ? "Ajoutez des tâches ci-dessus" : "Aucune tâche pour le moment"}
+        </div>
+      ` : `
+        <div class="task-list">
+          ${tasks.map((t, i) => `
+            <div class="task-row ${checks[t.id] ? 'checked' : ''}" data-id="${t.id}" style="animation-delay: ${i * 60}ms">
+              <span class="task-icon">${t.icon || '🧹'}</span>
+              <span class="task-label">${t.label}</span>
+              ${isAdmin ? `<button class="delete-btn" data-delete="${t.id}" title="Supprimer">✕</button>` : ''}
+              <span class="checkbox">
+                <svg class="checkmark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      `}
+
+      <div class="footer">
+        ${total > 0 ? `
+          <button class="reset-btn ${resetConfirm ? 'confirm' : ''}" id="resetBtn">
+            ${resetConfirm ? "Confirmer le reset ?" : "Tout décocher"}
+          </button>
+        ` : ''}
+        ${checks._savedAt ? `<div class="saved-at">Mis à jour : ${checks._savedAt}</div>` : ''}
       </div>
     `;
 
-    // Event listeners
-    document.querySelectorAll('.task-row').forEach(row => {
-      row.addEventListener('click', () => toggle(row.dataset.id));
+    // Bind events
+    document.getElementById("adminBtn").addEventListener("click", () => {
+      if (isAdmin) {
+        isAdmin = false;
+        render();
+      } else {
+        loginModal.style.display = "flex";
+        setTimeout(() => loginPassword.focus(), 100);
+      }
     });
 
-    document.getElementById('resetBtn').addEventListener('click', handleReset);
+    // Task clicks (check/uncheck)
+    document.querySelectorAll(".task-row").forEach(row => {
+      row.addEventListener("click", (e) => {
+        if (e.target.closest(".delete-btn")) return;
+        toggleCheck(row.dataset.id);
+      });
+    });
+
+    // Delete buttons
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteTask(btn.dataset.delete);
+      });
+    });
+
+    // Reset button
+    const resetBtn = document.getElementById("resetBtn");
+    if (resetBtn) resetBtn.addEventListener("click", handleReset);
+
+    // Admin: add task
+    if (isAdmin) {
+      const addBtn = document.getElementById("addTaskBtn");
+      const addInput = document.getElementById("newTaskInput");
+
+      addBtn.addEventListener("click", () => addTask(addInput.value));
+      addInput.addEventListener("keydown", (e) => { if (e.key === "Enter") addTask(addInput.value); });
+
+      document.querySelectorAll(".emoji-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedEmoji = btn.dataset.emoji;
+          render();
+          document.getElementById("newTaskInput").focus();
+        });
+      });
+    }
   }
 
-  function toggle(id) {
-    state[id] = !state[id];
-    save();
+  function toggleCheck(id) {
+    checks[id] = !checks[id];
+    saveChecks();
   }
 
   function handleReset() {
@@ -320,29 +628,696 @@
     }
     clearTimeout(resetTimeout);
     resetConfirm = false;
-    TASKS.forEach(t => { state[t.id] = false; });
-    save();
+    tasks.forEach(t => { checks[t.id] = false; });
+    saveChecks();
   }
 
-  function save() {
+  function saveChecks() {
     const now = new Date().toLocaleString("fr-FR", {
       day: "2-digit", month: "2-digit", year: "numeric",
       hour: "2-digit", minute: "2-digit"
     });
-    state._savedAt = now;
-    set(checklistRef, state);
+    checks._savedAt = now;
+    set(checksRef, checks);
   }
 
-  // Listen for realtime updates
-  onValue(checklistRef, (snapshot) => {
+  function addTask(label) {
+    label = label.trim();
+    if (!label) return;
+    const newRef = push(tasksRef);
+    set(newRef, { label, icon: selectedEmoji });
+  }
+
+  function deleteTask(id) {
+    const taskRef = ref(db, `tasks/${id}`);
+    remove(taskRef);
+    if (checks[id] !== undefined) {
+      delete checks[id];
+      set(checksRef, checks);
+    }
+  }
+
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Ménage - Checklist</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    .header { padding: 28px 24px 12px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header-left { flex: 1; }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .admin-toggle {
+      background: none;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #94a3b8;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .admin-toggle:hover { border-color: #cbd5e1; color: #64748b; }
+    .admin-toggle.active { background: #f0f9ff; border-color: #93c5fd; color: #3b82f6; }
+
+    .progress-track {
+      margin: 8px 24px 20px;
+      height: 6px;
+      border-radius: 3px;
+      background: #f1f5f9;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      background: linear-gradient(90deg, #60a5fa, #3b82f6);
+    }
+
+    .progress-fill.done {
+      background: linear-gradient(90deg, #4ade80, #22c55e);
+    }
+
+    .task-list {
+      padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .task-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #e8ecf1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #fff;
+      user-select: none;
+      animation: fadeSlideIn 0.4s ease both;
+    }
+
+    .task-row:active { transform: scale(0.98); }
+
+    .task-row.checked {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .task-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+
+    .task-label {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.3;
+      transition: all 0.2s ease;
+    }
+
+    .task-row.checked .task-label {
+      text-decoration: line-through;
+      color: #86a896;
+    }
+
+    .checkbox {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    .task-row.checked .checkbox {
+      background: #22c55e;
+      border-color: #22c55e;
+    }
+
+    .checkmark { display: none; }
+    .task-row.checked .checkmark { display: block; }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #e11d48;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .delete-btn:hover { opacity: 1; background: #fef2f2; }
+
+    .footer {
+      padding: 20px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reset-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      background: #f8fafc;
+      color: #94a3b8;
+      transition: all 0.2s ease;
+    }
+
+    .reset-btn.confirm {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+
+    .saved-at {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Admin panel */
+    .admin-panel {
+      padding: 16px;
+      margin: 16px 16px 0;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1.5px dashed #cbd5e1;
+    }
+
+    .admin-panel h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    .add-task-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .add-task-row input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .add-task-row input[type="text"]:focus { border-color: #93c5fd; }
+
+    .add-btn {
+      padding: 10px 16px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .add-btn:hover { background: #2563eb; }
+
+    .emoji-pick {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-btn {
+      padding: 4px 8px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .emoji-btn:hover { border-color: #93c5fd; background: #f0f9ff; }
+    .emoji-btn.selected { border-color: #3b82f6; background: #eff6ff; }
+
+    /* Login modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    .modal h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    .modal input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .modal input[type="password"]:focus { border-color: #93c5fd; }
+
+    .modal-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .modal-cancel {
+      padding: 10px 16px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      color: #64748b;
+    }
+
+    .modal-ok {
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .modal-error {
+      color: #dc2626;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 32px 16px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 60px 0;
+    }
+
+    .loading-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #3b82f6;
+      animation: pulse 1s infinite;
+    }
+
+    .loading p { color: #8a9bae; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="app">
+  <div class="loading">
+    <div class="loading-dot"></div>
+    <p>Chargement...</p>
+  </div>
+</div>
+
+<!-- Login modal -->
+<div class="modal-overlay" id="loginModal" style="display:none">
+  <div class="modal">
+    <h3>Mode admin 🔑</h3>
+    <div class="modal-error" id="loginError" style="display:none">Mot de passe incorrect</div>
+    <input type="password" id="loginPassword" placeholder="Mot de passe" autocomplete="off">
+    <div class="modal-buttons">
+      <button class="modal-cancel" id="loginCancel">Annuler</button>
+      <button class="modal-ok" id="loginOk">Valider</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdmFVTsHWsKz_os4aUbCsFvi_1gKWmrDs",
+    authDomain: "checklist-menage.firebaseapp.com",
+    databaseURL: "https://checklist-menage-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "checklist-menage",
+    storageBucket: "checklist-menage.firebasestorage.app",
+    messagingSenderId: "799371763363",
+    appId: "1:799371763363:web:7713ecbbcb4104717de916"
+  };
+
+  // Password hash (SHA-256)
+  const ADMIN_HASH = "4e937d509dae2e4e7e7b1f758891618b431f5add766963ae788c2b54b0e5a895";
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue, set, push, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getDatabase(firebaseApp);
+  const tasksRef = ref(db, "tasks");
+  const checksRef = ref(db, "checks");
+
+  const EMOJIS = ["🧹","🧽","🧊","🪟","👔","🔥","🚪","🗄️","🛁","🚽","🪣","✨","🧴","🛏️","💡","🪴"];
+
+  let tasks = [];
+  let checks = {};
+  let isAdmin = false;
+  let resetConfirm = false;
+  let resetTimeout = null;
+  let selectedEmoji = "🧹";
+  let tasksLoaded = false;
+  let checksLoaded = false;
+
+  const appEl = document.getElementById("app");
+
+  // SHA-256 hash function
+  async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  // Login modal
+  const loginModal = document.getElementById("loginModal");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginError = document.getElementById("loginError");
+
+  document.getElementById("loginCancel").addEventListener("click", () => {
+    loginModal.style.display = "none";
+    loginPassword.value = "";
+    loginError.style.display = "none";
+  });
+
+  document.getElementById("loginOk").addEventListener("click", tryLogin);
+  loginPassword.addEventListener("keydown", (e) => { if (e.key === "Enter") tryLogin(); });
+
+  async function tryLogin() {
+    const hash = await sha256(loginPassword.value);
+    if (hash === ADMIN_HASH) {
+      isAdmin = true;
+      loginModal.style.display = "none";
+      loginPassword.value = "";
+      loginError.style.display = "none";
+      render();
+    } else {
+      loginError.style.display = "block";
+      loginPassword.value = "";
+    }
+  }
+
+  function tryRender() {
+    if (tasksLoaded && checksLoaded) render();
+  }
+
+  // Listen for tasks
+  onValue(tasksRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      state = data;
+      tasks = Object.entries(data).map(([id, val]) => ({ id, ...val }));
     } else {
-      state = {};
+      tasks = [];
     }
-    render();
+    tasksLoaded = true;
+    tryRender();
   });
+
+  // Listen for checks
+  onValue(checksRef, (snapshot) => {
+    const data = snapshot.val();
+    checks = data || {};
+    checksLoaded = true;
+    tryRender();
+  });
+
+  function render() {
+    const doneCount = tasks.filter(t => checks[t.id]).length;
+    const total = tasks.length;
+    const progress = total > 0 ? (doneCount / total) * 100 : 0;
+    const allDone = total > 0 && doneCount === total;
+
+    appEl.innerHTML = `
+      <div class="header">
+        <div class="header-left">
+          <div class="title">Ménage</div>
+          <div class="subtitle">${
+            total === 0 ? "Aucune tâche" :
+            allDone ? "Tout est fait — merci ! ✨" :
+            `${doneCount} / ${total} tâches`
+          }</div>
+        </div>
+        <button class="admin-toggle ${isAdmin ? 'active' : ''}" id="adminBtn" title="Mode admin">
+          ${isAdmin ? '🔓' : '🔒'}
+        </button>
+      </div>
+
+      ${total > 0 ? `
+        <div class="progress-track">
+          <div class="progress-fill ${allDone ? 'done' : ''}" style="width: ${progress}%"></div>
+        </div>
+      ` : ''}
+
+      ${isAdmin ? `
+        <div class="admin-panel">
+          <h3>Ajouter une tâche</h3>
+          <div class="add-task-row">
+            <input type="text" id="newTaskInput" placeholder="Ex : Nettoyer la salle de bain">
+            <button class="add-btn" id="addTaskBtn">Ajouter</button>
+          </div>
+          <div class="emoji-pick">
+            ${EMOJIS.map(e => `
+              <button class="emoji-btn ${e === selectedEmoji ? 'selected' : ''}" data-emoji="${e}">${e}</button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${total === 0 ? `
+        <div class="empty-msg">
+          ${isAdmin ? "Ajoutez des tâches ci-dessus" : "Aucune tâche pour le moment"}
+        </div>
+      ` : `
+        <div class="task-list">
+          ${tasks.map((t, i) => `
+            <div class="task-row ${checks[t.id] ? 'checked' : ''}" data-id="${t.id}" style="animation-delay: ${i * 60}ms">
+              <span class="task-icon">${t.icon || '🧹'}</span>
+              <span class="task-label">${t.label}</span>
+              ${isAdmin ? `<button class="delete-btn" data-delete="${t.id}" title="Supprimer">✕</button>` : ''}
+              <span class="checkbox">
+                <svg class="checkmark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </span>
+            </div>
+          `).join('')}
+        </div>
+      `}
+
+      <div class="footer">
+        ${total > 0 ? `
+          <button class="reset-btn ${resetConfirm ? 'confirm' : ''}" id="resetBtn">
+            ${resetConfirm ? "Confirmer le reset ?" : "Tout décocher"}
+          </button>
+        ` : ''}
+        ${checks._savedAt ? `<div class="saved-at">Mis à jour : ${checks._savedAt}</div>` : ''}
+      </div>
+    `;
+
+    // Bind events
+    document.getElementById("adminBtn").addEventListener("click", () => {
+      if (isAdmin) {
+        isAdmin = false;
+        render();
+      } else {
+        loginModal.style.display = "flex";
+        setTimeout(() => loginPassword.focus(), 100);
+      }
+    });
+
+    // Task clicks (check/uncheck)
+    document.querySelectorAll(".task-row").forEach(row => {
+      row.addEventListener("click", (e) => {
+        if (e.target.closest(".delete-btn")) return;
+        toggleCheck(row.dataset.id);
+      });
+    });
+
+    // Delete buttons
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        deleteTask(btn.dataset.delete);
+      });
+    });
+
+    // Reset button
+    const resetBtn = document.getElementById("resetBtn");
+    if (resetBtn) resetBtn.addEventListener("click", handleReset);
+
+    // Admin: add task
+    if (isAdmin) {
+      const addBtn = document.getElementById("addTaskBtn");
+      const addInput = document.getElementById("newTaskInput");
+
+      addBtn.addEventListener("click", () => addTask(addInput.value));
+      addInput.addEventListener("keydown", (e) => { if (e.key === "Enter") addTask(addInput.value); });
+
+      document.querySelectorAll(".emoji-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          selectedEmoji = btn.dataset.emoji;
+          render();
+          document.getElementById("newTaskInput").focus();
+        });
+      });
+    }
+  }
+
+  function toggleCheck(id) {
+    checks[id] = !checks[id];
+    saveChecks();
+  }
+
+  function handleReset() {
+    if (!resetConfirm) {
+      resetConfirm = true;
+      render();
+      resetTimeout = setTimeout(() => { resetConfirm = false; render(); }, 3000);
+      return;
+    }
+    clearTimeout(resetTimeout);
+    resetConfirm = false;
+    tasks.forEach(t => { checks[t.id] = false; });
+    saveChecks();
+  }
+
+  function saveChecks() {
+    const now = new Date().toLocaleString("fr-FR", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit"
+    });
+    checks._savedAt = now;
+    set(checksRef, checks);
+  }
+
+  function addTask(label) {
+    label = label.trim();
+    if (!label) return;
+    const newRef = push(tasksRef);
+    set(newRef, { label, icon: selectedEmoji });
+  }
+
+  function deleteTask(id) {
+    const taskRef = ref(db, `tasks/${id}`);
+    remove(taskRef);
+    if (checks[id] !== undefined) {
+      delete checks[id];
+      set(checksRef, checks);
+    }
+  }
 
 </script>
 </body>
